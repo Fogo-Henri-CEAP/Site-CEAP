@@ -22,7 +22,7 @@
         }
         .container {
             width: 95%;
-            max-width: 1200px;
+            max-width: 1400px; 
             margin: 30px auto;
             display: flex;
             gap: 20px;
@@ -34,212 +34,246 @@
             margin-top: 0;
         }
 
-        /* Área do Laboratório (Jarra e Info) */
-        .lab-area {
-            flex: 1; 
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-        #jarra {
-            border: 3px solid #3498db; 
-            min-height: 150px;
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #e6f7ff; 
-            border-radius: 10px;
-            position: relative; 
-        }
-        .element-in-jarra {
-            display: inline-block;
-            color: white; 
-            padding: 8px 15px;
-            margin: 5px;
-            border-radius: 50px; 
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            font-size: 1.1em;
-            cursor: default;
+        /* --- ANIMAÇÃO DE FUSÃO --- */
+        @keyframes fusao-quimica {
+            0% { opacity: 1; transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            50% { opacity: 1; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(180deg) scale(1.1); }
+            100% { opacity: 0; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(360deg) scale(0); }
         }
         
-        /* Cores dos elementos na Jarra (Reagentes) */
-        .H { background-color: #e74c3c; } 
-        .O { background-color: #3498db; } 
-        .Na { background-color: #f1c40f; color: #333; } 
-        .Cl { background-color: #27ae60; } 
-        .Mg { background-color: #85c1e9; color: #333; } 
-        .Al { background-color: #7f8c8d; } 
-        .S { background-color: #f39c12; color: #333; } 
-        .C { background-color: #1abc9c; }
-        .He, .Ne, .Ar { background-color: #9b59b6; } /* Adicionado Ar */
-        .Li { background-color: #ff6f61; color: white; } 
-        .Be { background-color: #add8e6; color: #333; } 
-        .N { background-color: #9acd32; color: white; } 
-        .F { background-color: #ffd700; color: #333; } 
-        .K { background-color: #8a2be2; color: white; } 
-        .Br { background-color: #a52a2a; color: white; } 
-        /* Novas Cores */
-        .Ca { background-color: #ffe066; color: #333; } /* Cálcio */
-        .Fe { background-color: #b74f6f; color: white; } /* Ferro */
-        .Cu { background-color: #c98e3b; color: white; } /* Cobre */
-        .P { background-color: #795548; color: white; } /* Fósforo */
-        .I { background-color: #4b0082; color: white; } /* Iodo */
-
-
-        #resultado {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #ecf0f1;
-            border-radius: 5px;
-            min-height: 50px;
+        /* --- ANIMAÇÃO DO PRODUTO: Aparece no centro --- */
+        @keyframes produto-aparece {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            70% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* Imagem Simbólica do Produto */
-        .produto-visual {
-            margin-top: 10px;
-            padding: 15px;
-            border: 2px solid #2980b9;
-            border-radius: 8px;
-            background-color: #ffffff;
-            font-size: 1.2em;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        /* Lista de Compostos Criados */
-        #elementos-criados {
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 1px solid #bdc3c7;
-        }
-        #lista-elementos-criados {
-            list-style: none;
-            padding: 0;
-        }
-        #lista-elementos-criados li {
-            background-color: #d4e6f1;
-            padding: 8px;
-            margin-bottom: 5px;
-            border-left: 5px solid #2980b9;
-            border-radius: 3px;
-            font-weight: 500;
-        }
-
-        /* Info do Elemento Liberado */
-        #elemento-info { 
-            background-color: #f9f9f9; 
-            border: 1px dashed #2980b9; 
-            padding: 10px; 
-            margin-top: 20px; 
-            border-radius: 5px; 
-        }
-        #elemento-info h3 { 
-            color: #2c3e50; 
-            margin-top: 0; 
-        }
-        
-        /* Estilo da Tabela Periódica */
-        .periodic-table-container {
-            width: 500px; 
-        }
-        .periodic-table {
-            display: grid;
-            grid-template-columns: repeat(18, 1fr); 
-            gap: 3px;
-            background-color: #bdc3c7;
-            padding: 5px;
-            border-radius: 8px;
-        }
-        .element {
+        /* Layout */
+        .left-column {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 50px;
-            cursor: pointer; 
-            transition: background-color 0.1s, transform 0.1s;
-            user-select: none;
-            font-size: 0.7em;
-            font-weight: bold;
-            border-radius: 3px;
-            border: 1px solid #00000033;
-            color: #2c3e50; 
+            gap: 20px;
         }
-        .element:hover {
-            opacity: 0.9;
-            transform: scale(1.05);
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        .lab-area { 
+            flex: 1; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); 
         }
-        .element:empty {
-            background-color: transparent !important;
-            cursor: default;
-            border: none;
+
+        /* Jarra e Componentes */
+        #jarra {
+            width: 80%; height: 250px; margin: 40px auto; padding: 15px; background-color: #e6f7ff;
+            position: relative; overflow: hidden; border: 3px solid #3498db; border-top: none;
+            border-radius: 0 0 40px 40px / 0 0 20px 20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            text-align: center; display: flex; align-items: center; justify-content: center;
+            color: #555; font-size: 1.1em; font-style: italic;
         }
-        .symbol {
-            font-size: 1.4em;
+        #jarra::after {
+            content: ''; position: absolute; top: -20px; left: -3px; right: -3px; height: 20px;
+            background-color: #e6f7ff; border: 3px solid #3498db; border-radius: 10px 10px 0 0 / 5px 5px 0 0;
         }
+        .element-in-jarra {
+            position: absolute; display: flex; align-items: center; justify-content: center; color: white;
+            width: 45px; height: 45px; border-radius: 50%; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 1.1em; cursor: default; z-index: 1; box-sizing: border-box; 
+            transform: translate(-50%, -50%); 
+        }
+        .reagente-animado { animation: fusao-quimica 1s forwards ease-in-out; }
         
-        /* CORES DA TABELA PERIÓDICA */
+        .produto-final {
+            position: absolute; top: 50%; left: 50%; padding: 15px; background-color: #f7dc6f;
+            border: 3px solid #e67e22; border-radius: 10px; font-weight: bold; font-size: 1.2em;
+            opacity: 0; transform: translate(-50%, -50%); animation: produto-aparece 0.5s 1.2s forwards;
+            z-index: 2; cursor: grab; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* --- CORES DOS ELEMENTOS NA JARRA --- */
+        .H { background-color: #e74c3c; } .O { background-color: #3498db; } .Na { background-color: #f1c40f; color: #333; } .Cl { background-color: #27ae60; } .Mg { background-color: #85c1e9; color: #333; } .Al { background-color: #7f8c8d; } .S { background-color: #f39c12; color: #333; } .C { background-color: #1abc9c; } .He, .Ne, .Ar { background-color: #9b59b6; } .Li { background-color: #ff6f61; color: white; } .Be { background-color: #add8e6; color: #333; } .N { background-color: #9acd32; color: white; } .F { background-color: #ffd700; color: #333; } .K { background-color: #8a2be2; color: white; } .Br { background-color: #a52a2a; color: white; } .Ca { background-color: #ffe066; color: #333; } .Fe { background-color: #b74f6f; color: white; } .Cu { background-color: #c98e3b; color: white; } .P { background-color: #795548; color: white; } .I { background-color: #4b0082; color: white; }
+
+        /* Estilos de layout e botões */
+        #resultado { margin-top: 20px; padding: 15px; background-color: #ecf0f1; border-radius: 5px; min-height: 50px; }
+        .produto-visual { margin-top: 10px; padding: 15px; border: 2px solid #2980b9; border-radius: 8px; background-color: #ffffff; font-size: 1.2em; font-weight: bold; text-align: center; }
+        #elemento-info { background-color: #f9f9f9; border: 1px dashed #2980b9; padding: 10px; margin-top: 20px; border-radius: 5px; }
+        .botoes { margin-top: 15px; display: flex; gap: 10px; }
+        .botoes button { background-color: #2980b9; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; transition: background-color 0.3s ease; }
+        .botoes button:hover { background-color: #3498db; }
+        .aparencia-produto { font-style: italic; font-weight: bold; color: #e67e22; margin-top: 5px; display: block; }
+
+        /* --- Estilos da Tabela Periódica (Corrigido) --- */
+        .periodic-table-container { 
+            /* Não usamos mais flex: 1, pois é a coluna esquerda inteira agora */
+            max-width: 500px; 
+        }
+        .periodic-table { 
+            display: grid; 
+            grid-template-columns: repeat(18, 1fr); 
+            gap: 3px; 
+            background-color: #bdc3c7; 
+            padding: 5px; 
+            border-radius: 8px; 
+        }
+        .element { 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            height: 50px; cursor: pointer; transition: background-color 0.1s, transform 0.1s; 
+            user-select: none; font-size: 0.7em; font-weight: bold; border-radius: 3px; 
+            border: 1px solid rgba(0, 0, 0, 0.2); 
+            color: #2c3e50; 
+            box-sizing: border-box; 
+        }
+        .element:hover { opacity: 0.9; transform: scale(1.05); box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); }
+        .element:empty { background-color: transparent !important; cursor: default; border: none; }
+        .symbol { font-size: 1.4em; }
+
+        /* Cores dos grupos da Tabela Periódica */
         .non-metal { background-color: #a8dadc; } 
         .alkali-metal { background-color: #ffb703; color: white; } 
         .alkaline-earth { background-color: #ffc300; } 
         .metal { background-color: #2a9d8f; color: white; } 
-        .transition-metal { background-color: #3a86ff; color: white; } /* Novo tipo */
+        .transition-metal { background-color: #3a86ff; color: white; } 
         .halogen { background-color: #e63946; color: white; } 
         .noble-gas { background-color: #457b9d; color: white; } 
-        .other-non-metal { background-color: #4cc9f0; } 
-        
-        .botoes {
-            margin-top: 15px;
-            display: flex;
-            gap: 10px;
-        }
-        .botoes button {
-            background-color: #2980b9;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease;
-        }
-        .botoes button:hover {
-            background-color: #3498db;
-        }
-        .aparencia-produto { 
-            font-style: italic; 
-            font-weight: bold; 
-            color: #e67e22; 
-            margin-top: 5px; 
-            display: block; 
-        }
+        .other-non-metal { background-color: #4cc9f0; }
 
-        /* Estilos para a Tabela de Combinações */
-        #tabela-combinacoes-section {
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 1px solid #bdc3c7;
-        }
-        #tabela-combinacoes {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 0.9em;
-        }
-        #tabela-combinacoes th, #tabela-combinacoes td {
-            border: 1px solid #bdc3c7;
-            padding: 8px;
-            text-align: left;
-        }
-        #tabela-combinacoes th {
-            background-color: #34495e;
-            color: white;
+        /* --- Estilos da Área da Planta (Movida) --- */
+        .plant-area {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-        #tabela-combinacoes tr:nth-child(even) {
-            background-color: #ecf0f1;
+
+        #plant-container {
+            width: 250px;
+            height: 300px;
+            margin: 30px auto;
+            border: 2px dashed #999;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end; 
+            position: relative;
+            background-color: #f9f9f9;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
+        
+        #plant-container.drag-over {
+            background-color: #d8f5d8;
+            border-color: #28a745;
+        }
+
+        /* Estilo da Terra/Vaso */
+        #plant-container::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 80px;
+            background-color: #8b4513; 
+            border-radius: 0 0 8px 8px;
+            z-index: 0;
+        }
+
+        /* Estilo da Planta (CSS Art) */
+        .plant {
+            position: absolute;
+            bottom: 70px; 
+            width: 100%;
+            height: 150px; 
+            transition: all 0.5s ease-in-out;
+            z-index: 1;
+            transform-origin: bottom center; 
+            transform: scaleY(0.5); 
+        }
+
+        .plant .stem {
+            width: 10px;
+            height: 80%;
+            background-color: #228b22; 
+            margin: 0 auto;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .plant .leaf {
+            width: 40px;
+            height: 20px;
+            background-color: #3cb371; 
+            border-radius: 0 50% 50% 0; 
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%) rotate(-30deg);
+            transform-origin: left center;
+            transition: all 0.5s ease;
+        }
+        .plant .leaf:nth-child(2) {
+            top: 50%;
+            transform: translateX(-50%) rotate(30deg);
+            border-radius: 50% 0 0 50%;
+        }
+        .plant .leaf:nth-child(3) {
+            top: 10%;
+            width: 30px;
+            height: 15px;
+            transform: translateX(-50%) rotate(-45deg);
+        }
+        .plant .leaf:nth-child(4) {
+            top: 70%;
+            width: 35px;
+            height: 18px;
+            transform: translateX(-50%) rotate(45deg);
+            border-radius: 50% 0 0 50%;
+        }
+
+        /* --- Estados da Planta --- */
+        .plant-state-normal {
+            transform: scaleY(1);
+            filter: grayscale(0%);
+        }
+
+        .plant-state-crescida {
+            transform: scaleY(1.5); 
+            filter: grayscale(0%);
+            animation: grow-glow 1s ease-out forwards;
+        }
+
+        @keyframes grow-glow {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+            100% { filter: brightness(1); }
+        }
+
+        .plant-state-murcha {
+            transform: scaleY(0.3) rotateZ(-5deg); 
+            filter: grayscale(80%) brightness(0.7); 
+        }
+
+        .plant-state-envenenada {
+            transform: scaleY(0.7) rotateZ(-10deg);
+            filter: saturate(0%) brightness(0.5) sepia(100%) hue-rotate(30deg); 
+            animation: poison-pulse 1s infinite alternate;
+        }
+
+        @keyframes poison-pulse {
+            0% { transform: scaleY(0.7) rotateZ(-10deg); filter: saturate(0%) brightness(0.5) sepia(100%) hue-rotate(30deg); }
+            100% { transform: scaleY(0.65) rotateZ(-12deg); filter: saturate(0%) brightness(0.4) sepia(100%) hue-rotate(40deg); }
+        }
+
+        .plant-state-exotica {
+            transform: scaleY(1.2) rotateZ(5deg);
+            filter: hue-rotate(180deg) saturate(1.5); 
+            animation: exotic-bloom 1.5s infinite alternate;
+        }
+
+        @keyframes exotic-bloom {
+            0% { transform: scaleY(1.2) rotateZ(5deg); }
+            100% { transform: scaleY(1.25) rotateZ(-5deg); }
         }
 
     </style>
@@ -253,85 +287,64 @@
 
     <div class="container">
         
-        <div class="periodic-table-container">
-            <h2>Tabela Periódica</h2>
-            <div class="periodic-table" id="periodicTable">
-                
-                <div class="element non-metal" onclick="adicionarElemento('H', 'Hidrogênio', 'Gás, altamente reativo. O elemento mais leve do universo.', 1)">
-                    1<span class="symbol">H</span>
-                </div>
-                <div class="element" style="grid-column: span 16;"></div> 
-                <div class="element noble-gas" onclick="adicionarElemento('He', 'Hélio', 'Gás inerte e nobre. Usado em balões por ser leve e seguro.', 2)">
-                    2<span class="symbol">He</span>
-                </div>
-                
-                <div class="element alkali-metal" onclick="adicionarElemento('Li', 'Lítio', 'Metal alcalino, o metal mais leve. Usado em baterias recarregáveis.', 3)">
-                    3<span class="symbol">Li</span>
-                </div>
-                <div class="element alkaline-earth" onclick="adicionarElemento('Be', 'Berílio', 'Metal alcalino-terroso. Leve e resistente, usado em ligas metálicas.', 4)">
-                    4<span class="symbol">Be</span>
-                </div>
-                <div class="element" style="grid-column: span 9;"></div> 
-                <div class="element other-non-metal" onclick="adicionarElemento('N', 'Nitrogênio', 'Gás incolor e inodoro, principal componente do ar.', 7)">
-                    7<span class="symbol">N</span>
-                </div>
-                <div class="element non-metal" onclick="adicionarElemento('O', 'Oxigênio', 'Gás essencial para a respiração e combustão. É o O₂.', 8)">
-                    8<span class="symbol">O</span>
-                </div>
-                <div class="element halogen" onclick="adicionarElemento('F', 'Flúor', 'Gás altamente reativo, o elemento mais eletronegativo.', 9)">
-                    9<span class="symbol">F</span>
-                </div>
-                <div class="element noble-gas" onclick="adicionarElemento('Ne', 'Neônio', 'Gás nobre inerte. Produz luz laranja-avermelhada em letreiros.', 10)">
-                    10<span class="symbol">Ne</span>
-                </div>
+        <div class="left-column">
+            
+            <div class="periodic-table-container">
+                <h2>Tabela Periódica</h2>
+                <div class="periodic-table" id="periodicTable">
+                    
+                    <div class="element non-metal" onclick="adicionarElemento('H', 'Hidrogênio', 'Gás, altamente reativo. O elemento mais leve do universo.', 1)">1<span class="symbol">H</span></div>
+                    <div class="element" style="grid-column: span 16;"></div>
+                    <div class="element noble-gas" onclick="adicionarElemento('He', 'Hélio', 'Gás inerte e nobre. Usado em balões por ser leve e seguro.', 2)">2<span class="symbol">He</span></div>
+                    
+                    <div class="element alkali-metal" onclick="adicionarElemento('Li', 'Lítio', 'Metal alcalino, o metal mais leve. Usado em baterias recarregáveis.', 3)">3<span class="symbol">Li</span></div>
+                    <div class="element alkaline-earth" onclick="adicionarElemento('Be', 'Berílio', 'Metal alcalino-terroso. Leve e resistente, usado em ligas metálicas.', 4)">4<span class="symbol">Be</span></div>
+                    <div class="element" style="grid-column: span 9;"></div>
+                    <div class="element other-non-metal" onclick="adicionarElemento('N', 'Nitrogênio', 'Gás incolor e inodoro, principal componente do ar.', 7)">7<span class="symbol">N</span></div>
+                    <div class="element non-metal" onclick="adicionarElemento('O', 'Oxigênio', 'Gás essencial para a respiração e combustão. É o O₂.', 8)">8<span class="symbol">O</span></div>
+                    <div class="element halogen" onclick="adicionarElemento('F', 'Flúor', 'Gás altamente reativo, o elemento mais eletronegativo.', 9)">9<span class="symbol">F</span></div>
+                    <div class="element noble-gas" onclick="adicionarElemento('Ne', 'Neônio', 'Gás nobre inerte. Produz luz laranja-avermelhada em letreiros.', 10)">10<span class="symbol">Ne</span></div>
 
-                <div class="element alkali-metal" onclick="adicionarElemento('Na', 'Sódio', 'Metal alcalino muito reativo. Explode em contato com a água.', 11)">
-                    11<span class="symbol">Na</span>
-                </div>
-                <div class="element alkaline-earth" onclick="adicionarElemento('Mg', 'Magnésio', 'Metal alcalino-terroso. Queima com uma luz branca e brilhante.', 12)">
-                    12<span class="symbol">Mg</span>
-                </div>
-                <div class="element" style="grid-column: span 6;"></div> 
-                <div class="element other-non-metal" onclick="adicionarElemento('P', 'Fósforo', 'Não-metal reativo. O fósforo branco é muito tóxico.', 15)">
-                    15<span class="symbol">P</span>
-                </div>
-                <div class="element other-non-metal" onclick="adicionarElemento('S', 'Enxofre', 'Sólido amarelo. Usado em fertilizantes, pólvora e vulcanização.', 16)">
-                    16<span class="symbol">S</span>
-                </div>
-                <div class="element halogen" onclick="adicionarElemento('Cl', 'Cloro', 'Halogênio tóxico. Usado como desinfetante e na produção de PVC.', 17)">
-                    17<span class="symbol">Cl</span>
-                </div>
-                <div class="element noble-gas" onclick="adicionarElemento('Ar', 'Argônio', 'Gás nobre inerte. Usado em lâmpadas e soldagem.', 18)">
-                    18<span class="symbol">Ar</span>
-                </div>
+                    <div class="element alkali-metal" onclick="adicionarElemento('Na', 'Sódio', 'Metal alcalino muito reativo. Explode em contato com a água.', 11)">11<span class="symbol">Na</span></div>
+                    <div class="element alkaline-earth" onclick="adicionarElemento('Mg', 'Magnésio', 'Metal alcalino-terroso. Queima com uma luz branca e brilhante.', 12)">12<span class="symbol">Mg</span></div>
+                    <div class="element" style="grid-column: span 6;"></div>
+                    <div class="element other-non-metal" onclick="adicionarElemento('P', 'Fósforo', 'Não-metal reativo. O fósforo branco é muito tóxico.', 15)">15<span class="symbol">P</span></div>
+                    <div class="element other-non-metal" onclick="adicionarElemento('S', 'Enxofre', 'Sólido amarelo. Usado em fertilizantes, pólvora e vulcanização.', 16)">16<span class="symbol">S</span></div>
+                    <div class="element halogen" onclick="adicionarElemento('Cl', 'Cloro', 'Halogênio tóxico. Usado como desinfetante e na produção de PVC.', 17)">17<span class="symbol">Cl</span></div>
+                    <div class="element noble-gas" onclick="adicionarElemento('Ar', 'Argônio', 'Gás nobre inerte. Usado em lâmpadas e soldagem.', 18)">18<span class="symbol">Ar</span></div>
 
-                <div class="element alkali-metal" onclick="adicionarElemento('K', 'Potássio', 'Metal alcalino macio e altamente reativo. Essencial para a vida.', 19)">
-                    19<span class="symbol">K</span>
-                </div>
-                <div class="element alkaline-earth" onclick="adicionarElemento('Ca', 'Cálcio', 'Metal alcalino-terroso. Essencial para ossos e dentes.', 20)">
-                    20<span class="symbol">Ca</span>
-                </div>
-                <div class="element transition-metal" style="grid-column: span 6;"></div> 
-                <div class="element transition-metal" onclick="adicionarElemento('Fe', 'Ferro', 'Metal de transição, base da indústria. Reage com O para formar ferrugem.', 26)">
-                    26<span class="symbol">Fe</span>
-                </div>
-                <div class="element transition-metal" style="grid-column: span 2;"></div> 
-                <div class="element transition-metal" onclick="adicionarElemento('Cu', 'Cobre', 'Metal de transição, bom condutor de eletricidade e calor.', 29)">
-                    29<span class="symbol">Cu</span>
-                </div>
-                <div class="element" style="grid-column: span 5;"></div>
-                <div class="element halogen" onclick="adicionarElemento('Br', 'Bromo', 'Líquido volátil avermelhado. Tóxico e corrosivo.', 35)">
-                    35<span class="symbol">Br</span>
-                </div>
-                <div class="element" style="grid-column: span 1;"></div> 
+                    <div class="element alkali-metal" onclick="adicionarElemento('K', 'Potássio', 'Metal alcalino macio e altamente reativo. Essencial para a vida.', 19)">19<span class="symbol">K</span></div>
+                    <div class="element alkaline-earth" onclick="adicionarElemento('Ca', 'Cálcio', 'Metal alcalino-terroso. Essencial para ossos e dentes.', 20)">20<span class="symbol">Ca</span></div>
+                    <div class="element transition-metal" style="grid-column: span 6;"></div>
+                    <div class="element transition-metal" onclick="adicionarElemento('Fe', 'Ferro', 'Metal de transição, base da indústria. Reage com O para formar ferrugem.', 26)">26<span class="symbol">Fe</span></div>
+                    <div class="element transition-metal" style="grid-column: span 2;"></div>
+                    <div class="element transition-metal" onclick="adicionarElemento('Cu', 'Cobre', 'Metal de transição, bom condutor de eletricidade e calor.', 29)">29<span class="symbol">Cu</span></div>
+                    <div class="element" style="grid-column: span 5;"></div>
+                    <div class="element halogen" onclick="adicionarElemento('Br', 'Bromo', 'Líquido volátil avermelhado. Tóxico e corrosivo.', 35)">35<span class="symbol">Br</span></div>
+                    <div class="element" style="grid-column: span 1;"></div>
 
-                <div class="element" style="grid-column: span 17;"></div>
-                <div class="element halogen" onclick="adicionarElemento('I', 'Iodo', 'Sólido roxo-escuro que sublima (passa para gás) facilmente.', 53)">
-                    53<span class="symbol">I</span>
+                    <div class="element" style="grid-column: span 17;"></div>
+                    <div class="element halogen" onclick="adicionarElemento('I', 'Iodo', 'Sólido roxo-escuro que sublima (passa para gás) facilmente.', 53)">53<span class="symbol">I</span></div>
+                    
+                    <div class="element" style="grid-column: span 18; height: 10px;"></div>
+                    <div class="element" style="grid-column: span 18; background-color: #e6e6e6; border: none; height: 25px;">... clique nos elementos acima para interagir ...</div>
                 </div>
-                
-                <div class="element" style="grid-column: span 18; height: 10px;"></div>
-                <div class="element" style="grid-column: span 18; background-color: #e6e6e6; border: none; height: 25px;">... clique nos elementos acima para interagir ...</div>
+            </div>
+
+            <div class="plant-area">
+                <h2>Jardim Experimental 🌱</h2>
+                <p>Arraste o composto (após a reação) da jarra para a planta e veja a reação!</p>
+                <div id="plant-container" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                    <div class="plant" id="myPlant">
+                        <div class="stem"></div>
+                        <div class="leaf"></div>
+                        <div class="leaf"></div>
+                        <div class="leaf"></div>
+                        <div class="leaf"></div>
+                    </div>
+                    <p id="plant-feedback" style="position: absolute; bottom: 10px; color: #333; font-weight: bold;">Planta em estado Normal.</p>
+                </div>
+                <button onclick="resetPlant()" style="margin-top: 15px;">Resetar Planta</button>
             </div>
         </div>
 
@@ -362,233 +375,144 @@
                     <li>Nenhum composto criado ainda.</li>
                 </ul>
             </section>
-
-            <section id="tabela-combinacoes-section">
-                <h2>Tabela de Reações Programadas</h2>
-                <table id="tabela-combinacoes">
-                    <thead>
-                        <tr>
-                            <th>Combinação (Reagentes)</th>
-                            <th>Tipo de Ligação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Hidrogênio (H) + Oxigênio (O)</td><td>Covalente</td></tr>
-                        <tr><td>Sódio (Na) + Cloro (Cl)</td><td>Iônica</td></tr>
-                        <tr><td>Magnésio (Mg) + Oxigênio (O)</td><td>Iônica</td></tr>
-                        <tr><td>Alumínio (Al) + Oxigênio (O)</td><td>Iônica</td></tr>
-                        <tr><td>Hidrogênio (H) + Enxofre (S)</td><td>Covalente</td></tr>
-                        <tr><td>Carbono (C) + Oxigênio (O)</td><td>Covalente</td></tr>
-                        <tr><td>Carbono (C) + Hidrogênio (H)</td><td>Covalente</td></tr>
-                        <tr><td>Lítio (Li) + Oxigênio (O)</td><td>Iônica</td></tr>
-                        <tr><td>Berílio (Be) + Oxigênio (O)</td><td>Iônica</td></tr>
-                        <tr><td>Nitrogênio (N) + Hidrogênio (H)</td><td>Covalente</td></tr>
-                        <tr><td>Potássio (K) + Cloro (Cl)</td><td>Iônica</td></tr>
-                        <tr><td>Sódio (Na) + Bromo (Br)</td><td>Iônica</td></tr>
-                        <tr><td>Hidrogênio (H) + Flúor (F)</td><td>Covalente</td></tr>
-                        <tr><td>Carbono (C) + Nitrogênio (N)</td><td>Covalente (orgânica)</td></tr>
-                        <tr><td>**Cálcio (Ca) + Oxigênio (O)**</td><td>**Iônica**</td></tr>
-                        <tr><td>**Ferro (Fe) + Oxigênio (O)**</td><td>**Iônica (Óxido)**</td></tr>
-                        <tr><td>**Cobre (Cu) + Enxofre (S)**</td><td>**Iônica**</td></tr>
-                        <tr><td>**Hidrogênio (H) + Iodo (I)**</td><td>**Covalente**</td></tr>
-                        <tr><td>**Sódio (Na) + Fósforo (P)**</td><td>**Iônica**</td></tr>
-                        <tr><td>**Carbono (C) + Fósforo (P)**</td><td>**Covalente**</td></tr>
-                        <tr><td>Gases Nobres (He, Ne, Ar)</td><td>Nenhuma (Inerte)</td></tr>
-                    </tbody>
-                </table>
-            </section>
         </div>
 
     </div>
 
     <script>
         // Variáveis de Estado
-        let elementosNaJarra = [];
-        let compostosCriados = []; 
+        let elementosNaJarra = []; 
+        let compostosCriados = [];
+        let ultimoCompostoNaJarra = null; 
 
-        // Dicionário de Imagens Simbólicas (Nome do Produto e Aparência)
         const imagensCompostos = {
-            'H₂O': '💧 Molécula de Água (Líquido)',
-            'NaCl': '🧂 Cristais de Sal (Sólido)',
-            'MgO': '🍚 Pó de Magnésio (Sólido)',
-            'Al₂O₃': '💎 Alumina (Sólido)',
-            'H₂S': '💨 Gás Fedorento (Gás)',
-            'CO₂': '☁️ Gelo Seco (Gás/Sólido)',
-            'Orgânico': '🧬 Molécula Orgânica',
-            'Li₂O': '⚪ Óxido de Lítio (Pó branco)',
-            'BeO': '🗻 Óxido de Berílio (Sólido cristalino)',
-            'NH₃': '🌬️ Gás Amônia (Gás pungente)',
-            'KCl': '🍚 Cloreto de Potássio (Sólido branco)',
-            'NaBr': '🧂 Brometo de Sódio (Cristais brancos)',
-            'HF': '🧪 Fluoreto de Hidrogênio (Gás/Líquido corrosivo)',
-            'Cianeto': '💀 Cianeto (Molécula tóxica)',
-            // NOVOS
-            'CaO': '⚪ Óxido de Cálcio (Cal viva, pó branco)',
-            'Fe_Oxido': '🧱 Óxido de Ferro (Ferrugem, sólido avermelhado)',
-            'CuS': '⚫ Sulfeto de Cobre (Pó preto/marrom)',
-            'HI': '💨 Iodeto de Hidrogênio (Gás, ácido forte)',
-            'Na₃P': '✨ Fosfeto de Sódio (Sólido, muito reativo)',
-            'CP': '🕸️ Carbureto de Fósforo (Composto complexo)'
+            'H₂O': '💧 Molécula de Água (Líquido)', 'NaCl': '🧂 Cristais de Sal (Sólido)', 'MgO': '🍚 Pó de Magnésio (Sólido)', 'Al₂O₃': '💎 Alumina (Sólido)', 'H₂S': '💨 Gás Fedorento (Gás)', 'CO₂': '☁️ Gelo Seco (Gás/Sólido)', 'Orgânico': '🧬 Molécula Orgânica', 'Li₂O': '⚪ Óxido de Lítio (Pó branco)', 'BeO': '🗻 Óxido de Berílio (Sólido cristalino)', 'NH₃': '🌬️ Gás Amônia (Gás pungente)', 'KCl': '🍚 Cloreto de Potássio (Sólido branco)', 'NaBr': '🧂 Brometo de Sódio (Cristais brancos)', 'HF': '🧪 Fluoreto de Hidrogênio (Gás/Líquido corrosivo)', 'Cianeto': '💀 Cianeto (Molécula tóxica)', 'CaO': '⚪ Óxido de Cálcio (Cal viva, pó branco)', 'Fe_Oxido': '🧱 Óxido de Ferro (Ferrugem, sólido avermelhado)', 'CuS': '⚫ Sulfeto de Cobre (Pó preto/marrom)', 'HI': '💨 Iodeto de Hidrogênio (Gás, ácido forte)', 'Na₃P': '✨ Fosfeto de Sódio (Sólido, muito reativo)', 'CP': '🕸️ Carbureto de Fósforo (Composto complexo)', 'Mistura': '⚠️ Mistura Sem Reação Programada (Líquido)'
         };
 
         // ------------------------------------------------
-        // 1. Função de Adicionar e Liberar Elemento (Clique)
+        // 1. Função de Adicionar e Posicionar Elemento
         // ------------------------------------------------
-        
         function adicionarElemento(simbolo, nome, info, nAtomico) {
             const jarra = document.getElementById('jarra');
             const infoDiv = document.getElementById('elemento-info');
             
-            // 1. Liberar e Mostrar Informações
-            infoDiv.innerHTML = `
-                <h3>Elemento Liberado: ${nome} (${simbolo})</h3>
-                <p><strong>Nº Atômico:</strong> ${nAtomico}</p>
-                <p><strong>Descrição:</strong> ${info}</p>
-            `;
+            infoDiv.innerHTML = `<h3>Elemento Liberado: ${nome} (${simbolo})</h3><p><strong>Nº Atômico:</strong> ${nAtomico}</p><p><strong>Descrição:</strong> ${info}</p>`;
 
-            // 2. Adicionar à Jarra (Visual)
-            if (elementosNaJarra.length === 0) {
-                jarra.innerHTML = ''; // Limpa a mensagem inicial
+            if (elementosNaJarra.length === 0 && jarra.textContent.includes('Clique nos elementos')) {
+                jarra.innerHTML = ''; 
+                jarra.style.display = 'block'; 
+            }
+
+            // Remove o produto final se existir, para adicionar novos reagentes
+            const produtoExistente = document.querySelector('.produto-final');
+            if (produtoExistente) {
+                produtoExistente.remove();
+                ultimoCompostoNaJarra = null;
             }
 
             const elementoVisual = document.createElement('span');
             elementoVisual.textContent = simbolo;
-            elementoVisual.classList.add('element-in-jarra', simbolo); 
+            // AQUI ESTAVA O SEU PROBLEMA: A classe do elemento, que dá a cor e o estilo,
+            // é adicionada com sucesso pelo segundo argumento.
+            elementoVisual.classList.add('element-in-jarra', simbolo);
+            
+            // Posições estratégicas
+            const posicoesIniciais = [
+                { top: '25%', left: '25%' }, 
+                { top: '25%', left: '75%' }, 
+                { top: '75%', left: '25%' }, 
+                { top: '75%', left: '75%' }  
+            ];
+
+            const index = elementosNaJarra.length % posicoesIniciais.length; 
+            const { top, left } = posicoesIniciais[index];
+
+            elementoVisual.style.top = top;
+            elementoVisual.style.left = left;
             
             jarra.appendChild(elementoVisual);
             
-            // 3. Adiciona ao Array de Lógica
-            elementosNaJarra.push(simbolo);
+            elementosNaJarra.push({ simbolo: simbolo, dom: elementoVisual });
         }
 
         // ------------------------------------------------
-        // 2. Lógica de Simulação de Reação
+        // 2. Lógica de Simulação de Reação e Animação
         // ------------------------------------------------
-        
+
         function simularReacao() {
             const resultadoDiv = document.getElementById('resultado');
+            const jarraDiv = document.getElementById('jarra');
             
             if (elementosNaJarra.length < 2) {
                 resultadoDiv.innerHTML = "Adicione pelo menos dois elementos para simular uma reação.";
                 return;
             }
+            
+            if (document.querySelector('.produto-final')) {
+                resultadoDiv.innerHTML = "Já existe um produto na jarra. Limpe-a para uma nova reação.";
+                return;
+            }
 
-            const elementosUnicos = [...new Set(elementosNaJarra)].sort(); 
+            const simbolos = elementosNaJarra.map(e => e.simbolo);
+            const elementosUnicos = [...new Set(simbolos)].sort();
             const elementosChave = elementosUnicos.join(',');
             
-            let resultadoReacao = '';
-            let aparencia = '';
             let compostoCriado = null;
-            let imagemSimbolica = '';
-
-            // --- Regras de Reação e Aparência Física ---
-            if (elementosChave === 'H,O') {
-                resultadoReacao = '<h2>💦 Reação: Água (H₂O)</h2><p>Dois átomos de Hidrogênio (H) e um de Oxigênio (O) se combinam por **Ligação Covalente**.';
-                compostoCriado = 'H₂O';
-            } 
-            else if (elementosChave === 'Cl,Na') {
-                resultadoReacao = '<h2>🧂 Reação: Cloreto de Sódio (NaCl)</h2><p>O Sódio doa um elétron para o Cloro, resultando em uma **Ligação Iônica** e na formação do Sal de Cozinha.';
-                compostoCriado = 'NaCl';
-            } 
-            else if (elementosChave === 'Mg,O') {
-                resultadoReacao = '<h2>✨ Reação: Óxido de Magnésio (MgO)</h2><p>Reação intensa entre Magnésio e Oxigênio por **Ligação Iônica**.';
-                compostoCriado = 'MgO';
-            }
-            else if (elementosChave === 'Al,O') {
-                resultadoReacao = '<h2>🛡️ Reação: Óxido de Alumínio (Al₂O₃)</h2><p>O Alumínio reage com o Oxigênio, formando uma camada protetora por **Ligação Iônica**.</p>';
-                compostoCriado = 'Al₂O₃';
-            }
-            else if (elementosChave === 'H,S') {
-                resultadoReacao = '<h2>🤢 Reação: Sulfeto de Hidrogênio (H₂S)</h2><p>Hidrogênio e Enxofre combinam-se por **Ligação Covalente**, formando um gás tóxico.';
-                compostoCriado = 'H₂S';
-            }
-            else if (elementosChave.includes('C') && elementosChave.includes('O')) {
-                resultadoReacao = '<h2>☁️ Reação: Dióxido de Carbono (CO₂)</h2><p>Carbono reage com Oxigênio em uma **Combustão Completa** (se o O for abundante) por **Ligação Covalente**.</p>';
-                compostoCriado = 'CO₂';
-            }
-            else if (elementosChave.includes('H') && elementosChave.includes('C') && !elementosChave.includes('N') && !elementosChave.includes('P')) {
-                 resultadoReacao = '<h2>⛽ Reação: Hidrocarbonetos</h2><p>Combinação de Carbono e Hidrogênio por **Ligação Covalente**, base de combustíveis.</p>';
-                 compostoCriado = 'Orgânico';
-            }
-            else if (elementosChave === 'Li,O') {
-                resultadoReacao = '<h2>⚪ Reação: Óxido de Lítio (Li₂O)</h2><p>O Lítio reage com o Oxigênio para formar um óxido **Iônico**.</p>';
-                compostoCriado = 'Li₂O';
-            }
-            else if (elementosChave === 'Be,O') {
-                resultadoReacao = '<h2>🗻 Reação: Óxido de Berílio (BeO)</h2><p>Berílio e Oxigênio formam um óxido **Iônico**.</p>';
-                compostoCriado = 'BeO';
-            }
-            else if (elementosChave === 'H,N') {
-                resultadoReacao = '<h2>🌬️ Reação: Amônia (NH₃)</h2><p>Nitrogênio e Hidrogênio combinam-se por **Ligação Covalente**.</p>';
-                compostoCriado = 'NH₃';
-            }
-            else if (elementosChave === 'Cl,K') {
-                resultadoReacao = '<h2>🍚 Reação: Cloreto de Potássio (KCl)</h2><p>Potássio e Cloro reagem por **Ligação Iônica**.</p>';
-                compostoCriado = 'KCl';
-            }
-            else if (elementosChave === 'Br,Na') {
-                resultadoReacao = '<h2>🧂 Reação: Brometo de Sódio (NaBr)</h2><p>Sódio e Bromo reagem por **Ligação Iônica**.</p>';
-                compostoCriado = 'NaBr';
-            }
-            else if (elementosChave === 'F,H') {
-                resultadoReacao = '<h2>🧪 Reação: Fluoreto de Hidrogênio (HF)</h2><p>Flúor e Hidrogênio combinam-se por **Ligação Covalente**.</p>';
-                compostoCriado = 'HF';
-            }
-            else if (elementosChave.includes('C') && elementosChave.includes('N')) {
-                resultadoReacao = '<h2>💀 Reação: Cianeto (Composto Orgânico)</h2><p>Combinação de Carbono e Nitrogênio por **Ligação Covalente** (geralmente).</p>';
-                compostoCriado = 'Cianeto';
-            }
-            // NOVAS REAÇÕES
-            else if (elementosChave === 'Ca,O') {
-                resultadoReacao = '<h2>⚪ Reação: Óxido de Cálcio (CaO)</h2><p>Cálcio e Oxigênio formam a cal viva por **Ligação Iônica**.</p>';
-                compostoCriado = 'CaO';
-            }
-            else if (elementosChave === 'Fe,O') {
-                resultadoReacao = '<h2>🧱 Reação: Óxido de Ferro (Ferrugem)</h2><p>O Ferro reage lentamente com o Oxigênio e água para formar óxidos de ferro, processo conhecido como corrosão (ferrugem). **Ligação Iônica**.</p>';
-                compostoCriado = 'Fe_Oxido';
-            }
-            else if (elementosChave === 'Cu,S') {
-                resultadoReacao = '<h2>⚫ Reação: Sulfeto de Cobre (CuS)</h2><p>Cobre reage com Enxofre. A **Ligação Iônica** é dominante.</p>';
-                compostoCriado = 'CuS';
-            }
-            else if (elementosChave === 'H,I') {
-                resultadoReacao = '<h2>💨 Reação: Iodeto de Hidrogênio (HI)</h2><p>Hidrogênio e Iodo combinam-se por **Ligação Covalente**.</p>';
-                compostoCriado = 'HI';
-            }
-            else if (elementosChave === 'Na,P') {
-                resultadoReacao = '<h2>✨ Reação: Fosfeto de Sódio (Na₃P)</h2><p>Sódio e Fósforo formam um composto **Iônico** binário.</p>';
-                compostoCriado = 'Na₃P';
-            }
-            else if (elementosChave.includes('C') && elementosChave.includes('P')) {
-                resultadoReacao = '<h2>🕸️ Reação: Carbureto de Fósforo</h2><p>A combinação de Carbono e Fósforo pode formar compostos inorgânicos com predominância **Covalente**.</p>';
-                compostoCriado = 'CP';
-            }
-            else if (elementosChave.includes('Ne') || elementosChave.includes('He') || elementosChave.includes('Ar')) {
-                resultadoReacao = '<h2>💡 Mistura Inerte (Gases Nobres)</h2><p>Os Gases Nobres (Neônio, Hélio, Argônio) não reagem quimicamente em condições normais. O resultado é sempre uma **Mistura de Gases**.</p>';
-                compostoCriado = 'Mistura';
-            }
-            // --- Caso Genérico ---
-            else {
-                resultadoReacao = `<h2>🔍 Resultado: Mistura Simples</h2><p>Os elementos **${elementosChave.replace(/,/g, ', ')}** foram misturados. Sem uma reação específica programada, eles formam uma mistura.`;
-                compostoCriado = 'Mistura';
-            }
-
-            // 3. Monta e Exibe o Resultado
-            aparencia = imagensCompostos[compostoCriado].split('(')[1].replace(')', '') || 'Aparência: Não definida.';
-            const nomeComposto = imagensCompostos[compostoCriado].split('(')[0].trim();
-            imagemSimbolica = `<div class="produto-visual">${nomeComposto}</div>`;
+            let resultadoReacaoHTML = '';
             
-            resultadoDiv.innerHTML = resultadoReacao + `<span class="aparencia-produto">Aparência: **${aparencia}**</span>` + imagemSimbolica;
+            // --- Regras de Reação (Exemplos) ---
+            if (elementosChave === 'H,O') { compostoCriado = 'H₂O'; resultadoReacaoHTML = '<h2>💦 Reação: Água (H₂O)</h2><p>Dois átomos de Hidrogênio e um de Oxigênio se juntaram por **Ligação Covalente**.</p>'; }
+            else if (elementosChave === 'Cl,Na') { compostoCriado = 'NaCl'; resultadoReacaoHTML = '<h2>🧂 Reação: Cloreto de Sódio (NaCl)</h2><p>O Sódio doou um elétron para o Cloro, formando o Sal de Cozinha por **Ligação Iônica**.</p>'; }
+            else if (elementosChave === 'Mg,O') { compostoCriado = 'MgO'; resultadoReacaoHTML = '<h2>✨ Reação: Óxido de Magnésio (MgO)</h2><p>Reação intensa entre Magnésio e Oxigênio por **Ligação Iônica**.</p>'; }
+            else if (elementosChave.includes('C') && elementosChave.includes('O')) { compostoCriado = 'CO₂'; resultadoReacaoHTML = '<h2>☁️ Reação: Dióxido de Carbono (CO₂)</h2><p>Carbono reagiu com Oxigênio em uma **Combustão Completa**.</p>'; }
+            else if (elementosChave === 'H,N') { compostoCriado = 'NH₃'; resultadoReacaoHTML = '<h2>🌬️ Reação: Amônia (NH₃)</h2><p>Nitrogênio e Hidrogênio combinaram-se por **Ligação Covalente**.</p>'; }
+            else if (elementosChave.includes('P') && elementosChave.includes('K')) { compostoCriado = 'CP'; resultadoReacaoHTML = '<h2>🕸️ Reação: Composto Complexo (PK)</h2><p>Reação hipotética de Fósforo e Potássio. Geralmente usado em **fertilizantes** (PK).</p>'; }
+            else if (elementosChave.includes('He') || elementosChave.includes('Ne') || elementosChave.includes('Ar')) { compostoCriado = 'Mistura'; resultadoReacaoHTML = '<h2>💡 Mistura Inerte (Gases Nobres)</h2><p>Os Gases Nobres não reagem quimicamente em condições normais. O resultado é sempre uma **Mistura de Gases**.</p>'; }
+            else { compostoCriado = 'Mistura'; resultadoReacaoHTML = `<h2>🔍 Resultado: Mistura Simples</h2><p>Os elementos **${elementosChave.replace(/,/g, ', ')}** foram misturados. Sem reação específica programada.`; }
 
-            // 4. Adiciona à Lista de Compostos Criados (apenas se for um composto novo)
-            if (compostoCriado && compostoCriado !== 'Mistura' && !compostosCriados.includes(compostoCriado)) {
-                compostosCriados.push(compostoCriado);
-                atualizarListaCompostos();
-            }
+
+            const nomeComposto = imagensCompostos[compostoCriado] ? imagensCompostos[compostoCriado].split('(')[0].trim() : 'Composto';
+            
+            resultadoDiv.style.opacity = 0; 
+            
+            // --- Inicia a Animação de Fusão ---
+            elementosNaJarra.forEach(elemento => {
+                elemento.dom.classList.add('reagente-animado');
+            });
+
+            // Cria o visual do produto final (invisível no começo)
+            const produtoVisualJarra = document.createElement('div');
+            produtoVisualJarra.classList.add('produto-final');
+            produtoVisualJarra.innerHTML = nomeComposto;
+            produtoVisualJarra.draggable = true; 
+            produtoVisualJarra.dataset.composto = compostoCriado; 
+            produtoVisualJarra.addEventListener('dragstart', handleDragStart); 
+            jarraDiv.appendChild(produtoVisualJarra);
+
+            ultimoCompostoNaJarra = { simbolo: compostoCriado, dom: produtoVisualJarra }; 
+
+            // 3. Limpa a jarra e mostra o resultado após a animação
+            setTimeout(() => {
+                elementosNaJarra.forEach(elemento => elemento.dom.remove());
+                elementosNaJarra = [];
+                
+                produtoVisualJarra.style.animation = 'none';
+                produtoVisualJarra.style.opacity = 1;
+
+                resultadoDiv.innerHTML = resultadoReacaoHTML + `<span class="aparencia-produto">Aparência: **${imagensCompostos[compostoCriado].split('(')[1].replace(')', '')}**</span><div class="produto-visual">${nomeComposto}</div>`;
+                resultadoDiv.style.opacity = 1;
+
+                if (compostoCriado && compostoCriado !== 'Mistura' && !compostosCriados.includes(compostoCriado)) {
+                    compostosCriados.push(compostoCriado);
+                    atualizarListaCompostos();
+                }
+
+            }, 1800); 
+
         }
         
         // ------------------------------------------------
-        // 3. Funções de Controle (Inalteradas)
+        // 3. Funções de Controle da Jarra
         // ------------------------------------------------
 
         function atualizarListaCompostos() {
@@ -609,14 +533,113 @@
         }
         
         function resetLab() {
+            elementosNaJarra.forEach(elemento => elemento.dom.remove());
             elementosNaJarra = [];
-            document.getElementById('jarra').innerHTML = 'Clique nos elementos da Tabela Periódica para adicioná-los.';
+            
+            const produtoExistente = document.querySelector('.produto-final');
+            if (produtoExistente) {
+                produtoExistente.remove();
+            }
+            ultimoCompostoNaJarra = null;
+
+            const jarraDiv = document.getElementById('jarra');
+            jarraDiv.innerHTML = 'Clique nos elementos da Tabela Periódica para adicioná-los.';
+            jarraDiv.style.display = 'flex'; 
+            
             document.getElementById('resultado').innerHTML = "Aguardando a sua primeira mistura...";
             document.getElementById('elemento-info').innerHTML = '<h3>Informações do Elemento Selecionado</h3><p>Nenhum elemento liberado. Clique em um da tabela para ver detalhes e adicioná-lo à jarra.</p>';
+            document.getElementById('resultado').style.opacity = 1;
         }
 
-        // Inicializa a lista
-        document.addEventListener('DOMContentLoaded', atualizarListaCompostos);
+        // ------------------------------------------------
+        // 4. Funções de Drag and Drop (Arrastar e Soltar)
+        // ------------------------------------------------
+
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.dataset.composto);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault(); 
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            
+            const composto = e.dataTransfer.getData('text/plain');
+            reagirNaPlanta(composto);
+
+            if (ultimoCompostoNaJarra && ultimoCompostoNaJarra.simbolo === composto) {
+                ultimoCompostoNaJarra.dom.remove();
+                ultimoCompostoNaJarra = null;
+                document.getElementById('resultado').innerHTML = "Produto aplicado na planta. Limpe a jarra para um novo reagente.";
+            }
+        }
+
+        // ------------------------------------------------
+        // 5. Lógica de Reação na Planta
+        // ------------------------------------------------
+        function reagirNaPlanta(composto) {
+            const plantElement = document.getElementById('myPlant');
+            const feedback = document.getElementById('plant-feedback');
+            
+            plantElement.className = 'plant'; 
+
+            if (composto === 'H₂O') {
+                plantElement.classList.add('plant-state-normal');
+                feedback.textContent = "💧 Água (H₂O) aplicada. Hidratação saudável!";
+                feedback.style.color = '#3498db';
+            } else if (composto === 'NH₃' || composto === 'CP') { 
+                plantElement.classList.add('plant-state-crescida');
+                feedback.textContent = "🌿 Nutrientes (N/P/K) aplicados! Crescimento rápido!";
+                feedback.style.color = '#27ae60';
+            } else if (composto === 'NaCl' || composto === 'MgO') {
+                plantElement.classList.add('plant-state-murcha');
+                feedback.textContent = "⚠️ Alto teor de Sódio ou Magnésio. A planta está murchando!";
+                feedback.style.color = '#f39c12';
+            } else if (composto === 'Cianeto' || composto === 'HF') { 
+                plantElement.classList.add('plant-state-envenenada');
+                feedback.textContent = "💀 Veneno aplicado! A planta está morrendo!";
+                feedback.style.color = '#e74c3c';
+            } else if (composto === 'CO₂') {
+                plantElement.classList.add('plant-state-exotica');
+                feedback.textContent = "✨ Efeito Estufa (CO₂)! Crescimento exótico e estranho!";
+                feedback.style.color = '#9b59b6';
+            } else {
+                plantElement.classList.add('plant-state-normal');
+                feedback.textContent = "Produto Neutro aplicado. Sem efeito visível.";
+                feedback.style.color = '#555';
+            }
+
+            if (!plantElement.classList.length) {
+                plantElement.classList.add('plant-state-normal');
+                feedback.textContent = "Planta em estado Normal.";
+            }
+
+            atualizarListaCompostos();
+        }
+
+        function resetPlant() {
+            const plantElement = document.getElementById('myPlant');
+            const feedback = document.getElementById('plant-feedback');
+
+            plantElement.className = 'plant';
+            plantElement.classList.add('plant-state-normal');
+            feedback.textContent = "Planta em estado Normal.";
+            feedback.style.color = '#333';
+        }
+
+        // Inicializa a planta e a lista
+        document.addEventListener('DOMContentLoaded', () => {
+            resetPlant(); 
+            atualizarListaCompostos();
+        });
     </script>
 </body>
 </html>
